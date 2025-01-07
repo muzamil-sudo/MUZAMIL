@@ -114,7 +114,7 @@ class Calculator:
             self.p1, self.p2 = cx, cy
         elif sum(self.fingers) == 3 and self.fingers[0] == self.fingers[1] == self.fingers[2] == 1:
             self.p1, self.p2 = 0, 0
-        elif sum(self.fingers) == 2 and self.fingers[0] == self.fingers[2] == 1:
+        elif sum(self.fingers) == 2 and self.fingers[0] == self.fingers[4] == 1:
             cx, cy = self.landmark_list[12][1], self.landmark_list[12][2]
             if self.p1 == 0 and self.p2 == 0:
                 self.p1, self.p2 = cx, cy
@@ -140,8 +140,11 @@ class Calculator:
                  "* The mathematical equation represented in the image.\n" \
                  "* The solution to the equation.\n" \
                  "* A short and sweet explanation of the steps taken to arrive at the solution."
-        response = model.generate_content([prompt, imgCanvas])
-        return response.text
+        try:
+            response = model.generate_content([prompt, imgCanvas])
+            return response.text
+        except Exception as e:
+            return f"Error in AI response: {e}"
 
     def main(self):
         col1, _, col3 = st.columns([0.8, 0.02, 0.18])
